@@ -1,24 +1,31 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const RegisterPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:5005/api/v1/users/create-user', data);
-      if (response.data.message.includes('User is created successfully')) {
-        toast.success('Registration successful!');
-        navigate('/login');
+      const response = await axios.post(
+        "https://school-for-community-development.onrender.com/api/v1/users/create-user",
+        data
+      );
+      if (response.data.message.includes("User is created successfully")) {
+        toast.success("Registration successful!");
+        navigate("/login");
       }
     } catch (error) {
-      toast.error('Registration failed. Please try again.');
+      toast.error("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -31,51 +38,57 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <input
-              {...register('name', { required: 'Name is required' })}
+              {...register("name", { required: "Name is required" })}
               className="w-full px-3 py-2 border rounded-md"
               placeholder="Name"
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
           </div>
-          
+
           <div>
             <input
-              {...register('email', { 
-                required: 'Email is required',
+              {...register("email", {
+                required: "Email is required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Invalid email address'
-                }
+                  message: "Invalid email address",
+                },
               })}
               className="w-full px-3 py-2 border rounded-md"
               type="email"
               placeholder="Email"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
-          
+
           <div>
             <input
-              {...register('password', { 
-                required: 'Password is required',
+              {...register("password", {
+                required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: 'Password must be at least 6 characters'
-                }
+                  message: "Password must be at least 6 characters",
+                },
               })}
               className="w-full px-3 py-2 border rounded-md"
               type="password"
               placeholder="Password"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
-          
-          <button 
-            type="submit" 
+
+          <button
+            type="submit"
             className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary-dark"
             disabled={isLoading}
           >
-            {isLoading ? 'Registering...' : 'Register'}
+            {isLoading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>

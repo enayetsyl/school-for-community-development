@@ -12,7 +12,7 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:5005/api/v1/users/login', data, { withCredentials: true });
+      const response = await axios.post('https://school-for-community-development.onrender.com/api/v1/users/login', data, { withCredentials: true });
       if (response.data.message.includes('User successfully logged in')) {
         // After successful login response
         sessionStorage.setItem('user', JSON.stringify(response.data.data));
