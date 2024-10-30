@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import CreatePostPage from './pages/CreatePostPage';
 import PostPage from './pages/PostPage';
-import LoginPage from './pages/Loginpage';
+import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/PrivateRoute';
 
 const queryClient = new QueryClient();
