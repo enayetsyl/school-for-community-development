@@ -11,14 +11,12 @@ const categories = [
   "Class 2 Performance",
   "Class 3 Performance",
   "Class 4 Performance",
-  "Class 5 Performance",
-  "Class 6 Performance",
-  "Class 7 Performance",
-  "Class 8 Performance",
+  "Science Performance",
   "English Performance",
   "Arabic Performance",
   "Quran Performance",
   "Study Tour",
+  "Other",
 ];
 
 const CreatePostPage = () => {
@@ -62,7 +60,7 @@ const CreatePostPage = () => {
         toast.success("Post created successfully!");
       }
     } catch (error) {
-      toast.error("Failed to create post. Please try again.");
+      toast.error(`${error.response.data.message}`);
     } finally {
       setIsLoading(false);
     }
