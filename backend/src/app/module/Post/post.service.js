@@ -34,7 +34,9 @@ const createPost = async (payload) => {
 };
 
 const getAllPosts = async () => {
-  return await Post.find(); // Fetch all posts from the database
+  
+  return await Post.find(); 
+  
 };
 
 const getPostById = async (id) => {

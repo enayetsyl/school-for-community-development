@@ -34,8 +34,28 @@ const login = catchAsync(async (req, res) => {
     data: result.user,
   });
 })
+  const getAllUsers = catchAsync(async (req, res) => {
+    const result = await UserServices.getAllUsers()
+  
+    sendSuccessResponse(res, {
+      message: 'Users retrieved successfully',
+      data: result,
+    })
+  })
 
-// Export the controller
-export const UserControllers = {
-  createUser, login
-};
+  const verifyUser = catchAsync(async (req, res) => {
+    const { userId } = req.params
+    const result = await UserServices.verifyUser(userId)
+  
+    sendSuccessResponse(res, {
+      message: 'User verified successfully',
+      data: result,
+    })
+  })
+
+  export const UserControllers = {
+    createUser,
+    login,
+    getAllUsers,
+    verifyUser
+  }

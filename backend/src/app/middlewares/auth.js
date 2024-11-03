@@ -1,12 +1,11 @@
 import jwt from 'jsonwebtoken'
 import config from '../../config/index.js'
+import { User } from '../module/User/user.model.js';
 import { sendErrorResponse } from '../utils/sendResponse.js'
 import httpStatus from 'http-status'
 
 const verifyToken = (req, res, next) => {
-  console.log('req.headers.authorization', req.headers)
   const token = req.headers.cookie?.split('token=')[1]
-  console.log('token', token)
 
   if (!token) {
     return sendErrorResponse(res, {
@@ -28,3 +27,25 @@ const verifyToken = (req, res, next) => {
 }
 
 export default verifyToken
+
+
+
+export const isSuperUser = async (req, res, next) => {
+  try {
+    const token = req.headers.cookie?.split('token=')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
+    const decoded = jwt.verify(token, config.jwt_secret);
+    const user = await User.findById(decoded.id);
+    
+    if (user.role !== 'superUser') {
+      return res.status(403).json({ message: 'Forbidden access' });
+    }
+    
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};

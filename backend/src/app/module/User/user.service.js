@@ -19,6 +19,12 @@ const login = async (email, password) => {
     throw new Error('Invalid password');
   }
 
+  
+
+  if(!user.isVerified) {
+    throw new Error('Your account is not verified yet. Contact with admin. ')
+  }
+
   // Generate JWT token
   const token = jwt.sign(
     { id: user._id, email: user.email },
@@ -35,6 +41,23 @@ const login = async (email, password) => {
   }; 
 }
 
+const getAllUsers = async () => {
+  const users = await User.find({ role: 'user' })
+  return users
+}
+
+const verifyUser = async (userId) => {
+  const result = await User.findByIdAndUpdate(
+    userId,
+    { isVerified: true },
+    { new: true }
+  )
+  return result
+}
+
 export const UserServices = {
-  createUser, login
+  createUser,
+  login,
+  getAllUsers,
+  verifyUser
 }

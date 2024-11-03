@@ -2,6 +2,11 @@ import catchAsync from '../../utils/catchAsync.js';
 import { sendSuccessResponse, sendErrorResponse } from '../../utils/sendResponse.js';
 import { PostServices } from './post.service.js';
 import httpStatus from 'http-status';
+import { getLinkPreview } from "link-preview-js";
+import fetch from "node-fetch"
+// const cheerio = require('cheerio');
+import { load } from 'cheerio';
+
 
 // Create Post function
 const createPost = catchAsync(async (req, res) => {
@@ -27,7 +32,8 @@ const createPost = catchAsync(async (req, res) => {
 
 // Create Get All Posts function
 const getAllPosts = catchAsync(async (req, res) => {
-  const posts = await PostServices.getAllPosts(); // Retrieve all posts
+  const posts = await PostServices.getAllPosts(); 
+  console.log('get all post', posts)
   sendSuccessResponse(res, {
     message: 'Posts retrieved successfully',
     data: posts,
@@ -63,9 +69,43 @@ const getPostsByCategory = catchAsync(async (req, res) => {
   });
 });
 
+const getPreview = catchAsync(async(req, res) => {
+  const {url} = req.query;
+  const previewData = await fetch(url, { redirect: 'follow' });
+  const htmlContent = await previewData.text();
+
+     // Load HTML content into cheerio
+     const $ = load(htmlContent);
+
+     // Extract Open Graph metadata
+     const title = $('meta[property="og:title"]').attr('content') || $('title').text();
+     const description = $('meta[property="og:description"]').attr('content');
+     const image = $('meta[property="og:image"]').attr('content');
+     const siteName = $('meta[property="og:site_name"]').attr('content');
+ 
+     // Fallback for title and description if Open Graph tags are missing
+     const metadata = {
+       title: title || "No title available",
+       description: description || "No description available",
+       image: image || "No image available",
+       siteName: siteName || new URL(url).hostname,
+       url
+     };
+ 
+     sendSuccessResponse(res, {
+       message: "Link for preview",
+       data: metadata,
+     });
+  sendSuccessResponse(res, {
+    message: "Link for preview",
+    data: htmlContent
+  })
+})
+
 export const PostControllers = {
   createPost,
   getAllPosts,
   getPostById,
   getPostsByCategory,
+  getPreview
 };

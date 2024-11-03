@@ -9,5 +9,6 @@ router.post('/create-post', verifyToken, upload.fields([{ name: 'image' }, { nam
 router.get('/posts', PostControllers.getAllPosts)
 router.get('/posts/:id', PostControllers.getPostById)
 router.get('/category/:category', PostControllers.getPostsByCategory)
+router.get('/preview', PostControllers.getPreview)
 
 export const PostRoutes = router

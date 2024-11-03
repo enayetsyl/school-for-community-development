@@ -51,7 +51,7 @@ const CreatePostPage = () => {
 
     try {
       const response = await axios.post(
-        "https://school-for-community-development.onrender.com/api/v1/posts/create-post",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/posts/create-post`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

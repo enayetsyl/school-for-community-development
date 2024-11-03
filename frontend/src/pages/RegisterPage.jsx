@@ -17,7 +17,7 @@ const RegisterPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://school-for-community-development.onrender.com/api/v1/users/create-user",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/users/create-user`,
         data
       );
       if (response.data.message.includes("User is created successfully")) {
@@ -25,6 +25,7 @@ const RegisterPage = () => {
         navigate("/login");
       }
     } catch (error) {
+      console.log(error)
       toast.error("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);

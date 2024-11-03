@@ -40,6 +40,16 @@
                   >
                     Create Post
                   </Link>
+                  {user.role === 'superUser' && (
+                    <Link 
+                      to="/user-management" 
+                      className={`px-3 py-2 rounded-md text-sm font-medium ${
+                        location.pathname === '/user-management' ? 'bg-primary-foreground text-primary' : 'hover:bg-primary-foreground/10'
+                      }`}
+                    >
+                      User Management
+                    </Link>
+                  )}
                   <button 
                     onClick={handleLogout}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground/10"

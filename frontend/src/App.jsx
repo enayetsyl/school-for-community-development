@@ -9,6 +9,7 @@ import CreatePostPage from './pages/CreatePostPage';
 import PostPage from './pages/PostPage';
 import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/PrivateRoute';
+import UserManagementPage from './pages/UserManagementPage';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,14 @@ function App() {
     } 
   />
               <Route path="/post/:id" element={<PostPage />} />
+              <Route 
+  path="/user-management" 
+  element={
+    <PrivateRoute>
+      <UserManagementPage />
+    </PrivateRoute>
+  } 
+/>
             </Routes>
           </main>
           <Toaster />

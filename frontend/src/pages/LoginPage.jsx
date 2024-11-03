@@ -12,7 +12,7 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('https://school-for-community-development.onrender.com/api/v1/users/login', data, { withCredentials: true });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/users/login`, data, { withCredentials: true });
       if (response.data.message.includes('User successfully logged in')) {
         // After successful login response
         sessionStorage.setItem('user', JSON.stringify(response.data.data));
@@ -20,7 +20,8 @@ const LoginPage = () => {
         navigate('/create-post');
       }
     } catch (error) {
-      toast.error('Login failed. Please try again.');
+      console.log(error)
+      toast.error(`${error.response.data.message}`);
     } finally {
       setIsLoading(false);
     }
