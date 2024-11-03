@@ -7,21 +7,35 @@ import { Share2, ArrowRight, Loader2 } from "lucide-react";
 
 const categories = [
   "All",
-  "Nursery Performance",
-  "Kg Performance",
-  "Class 1 Performance",
-  "Class 2 Performance",
-  "Class 3 Performance",
-  "Class 4 Performance",
-  "Class 5 Performance",
-  "Class 6 Performance",
-  "Class 7 Performance",
-  "Class 8 Performance",
-  "English Performance",
-  "Arabic Performance",
-  "Quran Performance",
+  "Nursery",
+  "Kg",
+  "Class 1",
+  "Class 2",
+  "Class 3",
+  "English",
+  "Arabic",
+  "Quran",
   "Study Tour",
 ];
+
+// Skeleton Card component
+const SkeletonCard = () => (
+  <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col h-full animate-pulse">
+    {/* Title Placeholder */}
+    <div className="h-6 bg-gray-300 rounded-md mb-4"></div>
+    {/* Text Placeholder */}
+    <div className="h-4 bg-gray-300 rounded-md mb-4"></div>
+    <div className="h-4 bg-gray-300 rounded-md mb-4"></div>
+    {/* Image Placeholder */}
+    <div className="relative aspect-video h-[300px] bg-gray-300 rounded-md mb-4"></div>
+    {/* Button Placeholder */}
+    <div className="flex justify-between mt-auto">
+      <div className="h-10 bg-gray-300 rounded-lg w-24"></div>
+      <div className="h-10 bg-gray-300 rounded-lg w-16"></div>
+    </div>
+  </div>
+);
+
 
 const HomePage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -46,6 +60,7 @@ const HomePage = () => {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+  console.log(posts);
 
   useEffect(() => {
     if (posts) {
@@ -115,9 +130,14 @@ const HomePage = () => {
       </div>
 
       {/* Loading State */}
-      {isLoading && (
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+    {/* Loading Skeleton State */}
+    {isLoading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array(6) // Number of skeleton cards to show while loading
+            .fill(0)
+            .map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
         </div>
       )}
 
