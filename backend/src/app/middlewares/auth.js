@@ -6,6 +6,8 @@ import httpStatus from 'http-status'
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.cookie?.split('token=')[1]
+  console.log('token', token)
+  console.log('req.headers', req.headers)
 
   if (!token) {
     return sendErrorResponse(res, {
