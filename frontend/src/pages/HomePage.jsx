@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { Share2, ArrowRight, Loader2 } from "lucide-react";
+import { Share2, ArrowRight } from "lucide-react";
 
 const categories = [
   "All",
